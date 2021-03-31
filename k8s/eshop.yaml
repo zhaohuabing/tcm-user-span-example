@@ -50,7 +50,7 @@ spec:
   selector:
     app: delivery
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eshop-v1
@@ -58,6 +58,9 @@ metadata:
     version: v1
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: eshop
   template:
     metadata:
       labels:
@@ -66,10 +69,13 @@ spec:
     spec:
       containers:
       - name: eshop
-        image: zhaohuabing/istio-opentracing-demo:opentracing
+        image: zhaohuabing/istio-opentracing-demo:zipkin
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
+          - name: ZIPKIN_ENDPOINT
+            value: "http://zipkin.istio-system:9411/api/v2/spans"
           - name: JAEGER_ENDPOINT
             value: "http://jaeger-collector.istio-system:14268/api/traces"
           - name: JAEGER_PROPAGATION
@@ -77,7 +83,7 @@ spec:
           - name: JAEGER_TRACEID_128BIT
             value: "true"
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: inventory-v1
@@ -85,6 +91,9 @@ metadata:
     version: v1
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: inventory
   template:
     metadata:
       labels:
@@ -93,10 +102,13 @@ spec:
     spec:
       containers:
       - name: inventory
-        image: zhaohuabing/istio-opentracing-demo:opentracing
+        image: zhaohuabing/istio-opentracing-demo:zipkin
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
+          - name: ZIPKIN_ENDPOINT
+            value: "http://zipkin.istio-system:9411/api/v2/spans"
           - name: JAEGER_ENDPOINT
             value: "http://jaeger-collector.istio-system:14268/api/traces"
           - name: JAEGER_PROPAGATION
@@ -104,7 +116,7 @@ spec:
           - name: JAEGER_TRACEID_128BIT
             value: "true"
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: billing-v1
@@ -112,6 +124,9 @@ metadata:
     version: v1
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: billing
   template:
     metadata:
       labels:
@@ -120,10 +135,13 @@ spec:
     spec:
       containers:
       - name: billing
-        image: zhaohuabing/istio-opentracing-demo:opentracing
+        image: zhaohuabing/istio-opentracing-demo:zipkin
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
+          - name: ZIPKIN_ENDPOINT
+            value: "http://zipkin.istio-system:9411/api/v2/spans"
           - name: JAEGER_ENDPOINT
             value: "http://jaeger-collector.istio-system:14268/api/traces"
           - name: JAEGER_PROPAGATION
@@ -131,7 +149,7 @@ spec:
           - name: JAEGER_TRACEID_128BIT
             value: "true"
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: delivery-v1
@@ -139,6 +157,9 @@ metadata:
     version: v1
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: delivery
   template:
     metadata:
       labels:
@@ -147,10 +168,13 @@ spec:
     spec:
       containers:
       - name: delivery
-        image: zhaohuabing/istio-opentracing-demo:opentracing
+        image: zhaohuabing/istio-opentracing-demo:zipkin
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
+          - name: ZIPKIN_ENDPOINT
+            value: "http://zipkin.istio-system:9411/api/v2/spans"
           - name: JAEGER_ENDPOINT
             value: "http://jaeger-collector.istio-system:14268/api/traces"
           - name: JAEGER_PROPAGATION
